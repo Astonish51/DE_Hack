@@ -66,21 +66,17 @@ def hak_project():
 ​
     upd_shopping_list = SparkSubmitOperator(
         task_id='upd_shopping_list',
-        application='/home/upd_shopping_list.py',
+        application='shopping_list.py',
         application_args=['marts.ivi_shopping_list', POSTGRES_URL, POSTGRES_USER, POSTGRES_PASSWORD, ['/user/ubuntu/silver/events']],
     )
 ​
     job_events = SparkSubmitOperator(
         task_id='job_events.py',
-        application='/home/joba_events.py',
+        application='joba_events.py',
         application_args=['/user/ubuntu/silver/events', 'marts.events_count'],
     )
 ​
-    job_payments = SparkSubmitOperator(
-        task_id='job_events.py',
-        application='/home/joba_events.py',
-        application_args=['/user/ubuntu/silver/events', 'marts.payments_count'],
-    )
+
 ​
     upload_file >> events_partitioned >> [upd_shopping_list, job_events, job_payments]
 ​
